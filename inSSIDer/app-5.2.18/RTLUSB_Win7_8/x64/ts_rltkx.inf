@@ -1,0 +1,137 @@
+[Version]
+Signature="$WINDOWS NT$"
+Class=Net
+ClassGUID={4d36e972-e325-11ce-bfc1-08002be10318}
+Provider=%TamoSoft%
+DriverVer= 03/11/2030,1.1.0.72
+CatalogFile=tsrltkx.cat
+
+; ================= Device section =====================
+
+[Manufacturer]
+%TamoSoft%=TamoSoft,NTamd64
+
+[TamoSoft.NTamd64]
+;8812
+%TSRLTUSB.USBAC56%=TSRLTUSB.Dev, USB\VID_0B05&PID_17D2
+%TSRLTUSB.EW7822UAC%=TSRLTUSB.Dev, USB\VID_7392&PID_A822
+%TSRLTUSB.ZYXELAC240%=TSRLTUSB.Dev, USB\VID_0586&PID_3426
+%TSRLTUSB.F9L1109V1%=TSRLTUSB.Dev, USB\VID_050D&PID_1109
+%TSRLTUSB.WUSB6300%=TSRLTUSB.Dev, USB\VID_13B1&PID_003F
+%TSRLTUSB.TEW805UB%=TSRLTUSB.Dev, USB\VID_20F4&PID_805B
+%TSRLTUSB.EUB1200AC%=TSRLTUSB.Dev, USB\VID_1740&PID_0100
+%TSRLTUSB.DWA180%=TSRLTUSB.Dev, USB\VID_2001&PID_3316
+%TSRLTUSB.DWA182%=TSRLTUSB.Dev, USB\VID_2001&PID_3315
+%TSRLTUSB.ACA%=TSRLTUSB.Dev, USB\VID_148F&PID_9097
+%TSRLTUSB.GEN%=TSRLTUSB.Dev, USB\VID_0BDA&PID_8812
+%TSRLTUSB.T4U%=TSRLTUSB.Dev, USB\VID_2357&PID_0101
+%TSRLTUSB.T4U%=TSRLTUSB.Dev, USB\VID_2357&PID_010D
+%TSRLTUSB.T4U%=TSRLTUSB.Dev, USB\VID_2357&PID_010E
+%TSRLTUSB.T4U%=TSRLTUSB.Dev, USB\VID_2357&PID_010F
+%TSRLTUSB.T4U%=TSRLTUSB.Dev, USB\VID_2357&PID_0115
+%TSRLTUSB.T4UH%=TSRLTUSB.Dev, USB\VID_2357&PID_0103
+%TSRLTUSB.PO%=TSRLTUSB.Dev, USB\VID_08C4&PID_0115
+;8814
+%TSRLT8814USB.DWA192%=TSRLTUSB.Dev, USB\VID_2001&PID_331A
+%TSRLT8814USB.ASUSAC68%=TSRLTUSB.Dev, USB\VID_0B05&PID_1817
+%TSRLT8814USB.ASUSAC68%=TSRLTUSB.Dev, USB\VID_0B05&PID_1852
+%TSRLT8814USB.ASUSAC68%=TSRLTUSB.Dev, USB\VID_0B05&PID_1853
+%TSRLT8814USB.EdimaxAC1750%=TSRLTUSB.Dev, USB\VID_7392&PID_A834
+%TSRLT8814USB.EdimaxAC1750%=TSRLTUSB.Dev, USB\VID_7392&PID_A833
+%TSRLT8814USB.AWUS1900%=TSRLTUSB.Dev, USB\VID_0BDA&PID_8813
+%TSRLT8814USB.T9UH%=TSRLTUSB.Dev, USB\VID_2357&PID_0106
+;8812BU
+%TSRLTUSB.ASUSAC53%=TSRLTUSB.Dev, USB\VID_0B05&PID_184C
+%TSRLTUSB.EW7822ULC%=TSRLTUSB.Dev, USB\VID_7392&PID_B822
+%TSRLTUSB.EW7822UTC%=TSRLTUSB.Dev, USB\VID_7392&PID_C822
+%TSRLTUSB.WUSB6400M%=TSRLTUSB.Dev, USB\VID_13B1&PID_0043
+%TSRLTUSB.DWA182D1%=TSRLTUSB.Dev, USB\VID_2001&PID_331C
+%TSRLTUSB.RTL8812BU%=TSRLTUSB.Dev, USB\VID_0BDA&PID_B812
+
+[TSRLTUSB.Dev.NT]
+Characteristics = 0x84
+BusType         = 5
+*IfType         = 71            ; IF_TYPE_IEEE80211
+*MediaType      = 16            ; NdisMediumNative802_11
+*PhysicalMediaType = 9          ; NdisPhysicalMediumNative802_11
+CopyFiles=TSRLTUSB.Files.Ext
+
+[TSRLTUSB.Dev.NT.Services]
+Addservice = TSRLTUSB, 0x00000002, TSRLTUSB.AddService
+
+[TSRLTUSB.AddService]
+DisplayName    = %TSRLTUSB.SvcDesc%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %10%\System32\Drivers\ts_rltkx.sys
+AddReg         = TSRLTUSB.AddReg
+LoadOrderGroup = Base
+
+[TSRLTUSB.AddReg]
+HKR, Ndi\Interfaces,              UpperRange, 0, "ndis5"
+HKR, Ndi\Interfaces,              LowerRange, 0, "wlan,ethernet"
+
+[TSRLTUSB.Files.Ext]
+ts_rltkx.sys
+
+[SourceDisksNames]
+1=%Disk_Description%,,,
+
+[SourceDisksFiles]
+ts_rltkx.sys = 1
+WdfCoInstaller01011.dll=1
+
+;-------------- WDF Coinstaller installation
+[DestinationDirs]
+DefaultDestDir = 12
+CoInstaller_CopyFiles = 11
+
+[TSRLTUSB.Dev.NT.CoInstallers]
+AddReg=CoInstaller_AddReg
+CopyFiles=CoInstaller_CopyFiles
+
+[CoInstaller_CopyFiles]
+WdfCoInstaller01011.dll
+
+[CoInstaller_AddReg]
+HKR,,CoInstallers32,0x00010000, "WdfCoInstaller01011.dll,WdfCoInstaller"
+
+[TSRLTUSB.Dev.NT.Wdf]
+KmdfService = TSRLTUSB, TSRLTUSB_wdfsect
+
+[TSRLTUSB_wdfsect]
+KmdfLibraryVersion = 1.11
+
+;---------------------------------------------------------------;
+
+[Strings]
+TamoSoft        = "TamoSoft"
+Disk_Description= "CommView for WiFi Installation Disk"
+TSRLTUSB.SvcDesc = "TamoSoft CommView wireless driver for Realtek 8812AU chipset"
+ClassName       = "Universal Serial Bus devices"
+TSRLTUSB.EW7822UAC = "[CommView] Edimax EW-7822UAC"
+TSRLTUSB.USBAC56 = "[CommView] Asus USB-AC56"
+TSRLTUSB.ZYXELAC240 = "[CommView] ZyXEL AC240" 
+TSRLTUSB.F9L1109V1 = "[CommView] Belkin F9L1109V1" 
+TSRLTUSB.WUSB6300 = "[CommView] Linksys WUSB6300"
+TSRLTUSB.TEW805UB = "[CommView] TRENDnet TEW-805UB"
+TSRLTUSB.EUB1200AC = "[CommView] EnGenius EUB1200AC"
+TSRLTUSB.DWA180 = "[CommView] D-Link DWA-180 rev A1"
+TSRLTUSB.DWA182 = "[CommView] D-Link DWA-182 rev C1"
+TSRLTUSB.ACA = "[CommView] Amped Wireless ACA1"
+TSRLTUSB.GEN = "[CommView] Realtek 8812AU"
+TSRLTUSB.T4U = "[CommView] TP-LINK Archer T4U"
+TSRLTUSB.T4UH = "[CommView] TP-LINK Archer T4UH"
+TSRLTUSB.PO = "[CommView] Proxim ORiNOCO 9100"
+TSRLT8814USB.DWA192 = "[CommView] D-Link DWA-192"
+TSRLT8814USB.ASUSAC68 = "[CommView] ASUS USB-AC68"
+TSRLT8814USB.EdimaxAC1750 = "[CommView] Edimax EW-7833UAC"
+TSRLT8814USB.AWUS1900 = "[CommView] Alfa AWUS1900"
+TSRLTUSB.ASUSAC53 = "[CommView] ASUS USB-AC53"
+TSRLTUSB.EW7822ULC = "[CommView] Edimax EW-7822ULC"
+TSRLTUSB.EW7822UTC = "[CommView] Edimax EW-7822UTC"
+TSRLTUSB.WUSB6400M = "[CommView] Linksys WUSB6400M"
+TSRLTUSB.DWA182D1 = "[CommView] D-Link DWA-182 rev D1"
+TSRLTUSB.RTL8812BU = "[CommView] Realtek RTL8812BU 802.11ac 2x2"
+TSRLT8814USB.T9UH = "[CommView] TP-LINK Archer T9UH v2"
